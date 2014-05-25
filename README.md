@@ -24,7 +24,7 @@ $ npm install --save-dev grunt-browserify grunt-contrib-clean grunt-contrib-conc
 * **`grunt dev` &rArr; `grunt`**: compile source and launch a development server that watches changes and reloads the browser
 * **`grunt minify`**: optimize and obfuscate compiled source files for production (run `grunt build` first)
 * **`grunt dist`**: build and minify source code in `dist/`, copy production assets, and launch a static production preview server
-* **`grunt deploy`**: upload production source to the [GitHub Page](http://giladgray.github.io/mmindd-mmvp/)
+* **`grunt deploy`**: upload production source to your project's GitHub Page (`http://<username>.github.io/<project>`)
 
 ### Common Workflow
 Generally, you'll run `grunt dev` (or simply `grunt` for convenience) while you develop. This command launches the development server which watches for changes to source files and recompiles and reloads intelligently.
@@ -34,7 +34,7 @@ When you're ready to deploy a new version, you'll run `grunt dist` to test the c
 ## Technologies
 This Grunt workflow comes with an opinionated set of web technologies.
 
-**[CoffeeScript](http://coffeescript.org)** is "a little language that compiles into JavaScript" and provides the power, flexibility, and portability of JavaScript with the pure joy of developer-friendly scripting languages like Ruby and Python. It augments basic JavaScript syntax with a whitespace-sensitive syntax, Python-style comprehensions, simpler English keywords, and a useful `class` structure with basic inheritance.
+**[CoffeeScript](http://coffeescript.org)** is "a little language that compiles into JavaScript." It merges the power, flexibility, and portability of JavaScript with the pure joy of developer-friendly scripting languages like Ruby and Python. It augments basic JavaScript syntax with a whitespace-sensitive syntax, Python-style comprehensions, simpler English keywords, and a useful `class` structure with basic inheritance. You're going to love it.
 
 **[Browserify](http://browserify.org/)** lets you `require('modules')` in the browser just like in Node, and bundles all your dependencies effortlessly. This workflow uses Browserify to perform the CoffeeScript compilation and to bundle all your source files for the client.
 
