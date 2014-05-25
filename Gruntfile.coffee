@@ -1,5 +1,9 @@
 "use strict"
 
+###
+npm install --save-dev browserify coffeeify grunt grunt-browserify grunt-contrib-clean grunt-contrib-concat grunt-contrib-connect grunt-contrib-copy grunt-contrib-cssmin grunt-contrib-handlebars grunt-contrib-imagemin grunt-contrib-sass grunt-contrib-uglify grunt-contrib-watch grunt-gh-pages grunt-template grunt-usemin load-grunt-tasks time-grunt
+###
+
 # # Globbing
 # for performance reasons we're only matching one level down:
 # 'test/spec/{,*/}*.js'
