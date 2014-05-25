@@ -1,11 +1,10 @@
 gruntfile
 =========
 
-A great starter Gruntfile with a complete development workflow
+A great starter Gruntfile with a complete development workflow.
 
-Usage
-=====
-Add this `Gruntfile.coffee` to your projects. Run the following commands in your terminal to install and save Grunt and the packages used in this Gruntfile:
+## Installation
+Add this `Gruntfile.coffee` to your projects, either by downloading it or copy-pasting the text. Run the following commands in your terminal to install and save Grunt and the packages used in this Gruntfile. Then use the workflow described below for kickass frontend web development!
 
 ```bash
 # globally install Grunt and CoffeeScript
@@ -18,8 +17,8 @@ $ npm install --save-dev browserify coffeeify grunt load-grunt-tasks time-grunt`
 $ npm install --save-dev grunt-browserify grunt-contrib-clean grunt-contrib-concat grunt-contrib-connect grunt-contrib-copy grunt-contrib-cssmin grunt-contrib-handlebars grunt-contrib-imagemin grunt-contrib-sass grunt-contrib-uglify grunt-contrib-watch grunt-gh-pages grunt-template grunt-usemin`
 ```
 
-Workflow
-========
+## Workflow
+
 ### Grunt Targets
 * **`grunt build`**: compile sources (Coffee, Sass, templates) from `app/` to `dist/`
 * **`grunt dev` &rArr; `grunt`**: compile source and launch a development server that watches changes and reloads the browser
