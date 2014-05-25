@@ -1,7 +1,9 @@
 "use strict"
 
 ###
-npm install --save-dev browserify coffeeify grunt grunt-browserify grunt-contrib-clean grunt-contrib-concat grunt-contrib-connect grunt-contrib-copy grunt-contrib-cssmin grunt-contrib-handlebars grunt-contrib-imagemin grunt-contrib-sass grunt-contrib-uglify grunt-contrib-watch grunt-gh-pages grunt-template grunt-usemin load-grunt-tasks time-grunt
+Installation commands:
+npm install --save-dev grunt browserify coffeeify load-grunt-tasks time-grunt
+npm install --save-dev grunt-browserify grunt-contrib-clean grunt-contrib-concat grunt-contrib-connect grunt-contrib-copy grunt-contrib-cssmin grunt-contrib-handlebars grunt-contrib-imagemin grunt-contrib-sass grunt-contrib-uglify grunt-contrib-watch grunt-gh-pages grunt-template grunt-usemin
 ###
 
 # # Globbing
@@ -12,12 +14,13 @@ npm install --save-dev browserify coffeeify grunt grunt-browserify grunt-contrib
 module.exports = (grunt) ->
   pkg = grunt.file.readJSON('package.json')
 
-  # load all grunt tasks
+  # load all grunt tasks and time execution
   require('load-grunt-tasks') grunt
   require('time-grunt') grunt
 
   ###### PLUGIN CONFIGURATIONS ######
   grunt.initConfig
+    # grunt-contrib-watch
     watch:
       template:
         files: ['app/_*']
@@ -39,6 +42,7 @@ module.exports = (grunt) ->
     clean:
       dist: ['dist']
 
+    # grunt-browserify
     browserify:
       options:
         transform: ['coffeeify']
@@ -46,6 +50,7 @@ module.exports = (grunt) ->
         files:
           'dist/scripts/index.js': ['app/scripts/index.coffee']
 
+    # grunt-contrib-sass
     sass:
       dist:
         options:
@@ -58,6 +63,7 @@ module.exports = (grunt) ->
           ext: '.css'
         ]
 
+    # grunt-contrib-handlebars
     handlebars:
       dist:
         files:
@@ -67,6 +73,7 @@ module.exports = (grunt) ->
           processName: (filename) ->
             filename.match(/templates\/(.+)\.h[bj]s$/)[1]
 
+    # grunt-template
     template:
       dist:
         options:
@@ -75,12 +82,14 @@ module.exports = (grunt) ->
           'dist/index.html'   : ['app/_index.html']
           'dist/manifest.json': ['app/_manifest.json']
 
+    # grunt-contrib-copy
     copy:
       dist:
         files: [
           {expand: true, cwd: 'app', src: ['styles/fonts/**'], dest: 'dist'},
         ]
 
+    # grunt-contrib-imagemin
     imagemin:
       dist:
         expand: true
@@ -88,15 +97,17 @@ module.exports = (grunt) ->
         src: ['images/*.png']
         dest: 'dist'
 
+    # grunt-usemin
     useminPrepare:
       html: 'app/_index.html'
 
+    # grunt-usemin
     usemin:
       options:
         dirs: ['dist']
       html: ['dist/{,*/}*.html']
 
-    # The actual grunt server settings
+    # grunt-contrib-connect
     connect:
       options:
         port: 9000
@@ -106,7 +117,7 @@ module.exports = (grunt) ->
       livereload:
         options:
           open: true
-          base: ['app', 'dist', 'node_modules']
+          base: ['app', 'dist']
       test:
         options:
           port: 9001
@@ -120,6 +131,7 @@ module.exports = (grunt) ->
         options:
           open: 'https://giladgray.github.io/mmindd-mmvp'
 
+    # grunt-gh-pages
     'gh-pages':
       options:
         base: 'dist'
