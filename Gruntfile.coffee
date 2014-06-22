@@ -20,6 +20,8 @@ module.exports = (grunt) ->
 
   ###### PLUGIN CONFIGURATIONS ######
   grunt.initConfig
+    pkg: pkg
+
     # grunt-contrib-watch
     watch:
       template:
@@ -46,7 +48,13 @@ module.exports = (grunt) ->
     browserify:
       options:
         transform: ['coffeeify']
-      main:
+      dev:
+        options:
+          bundleOptions:
+            debug: true # coffee sourcemaps!!!
+        files:
+          'dist/scripts/index.js': ['app/scripts/index.coffee']
+      dist:
         files:
           'dist/scripts/index.js': ['app/scripts/index.coffee']
 
@@ -129,7 +137,7 @@ module.exports = (grunt) ->
           livereload: false
       github:
         options:
-          open: 'https://giladgray.github.io/mmindd-mmvp'
+          open: 'https://giladgray.github.io/<%= pkg.name %>'
 
     # grunt-gh-pages
     'gh-pages':
@@ -140,18 +148,19 @@ module.exports = (grunt) ->
   ######### TASK DEFINITIONS #########
 
   # compile assets for development
-  grunt.registerTask 'build', [
-    'clean'
-    'sass'
-    'handlebars'
-    'browserify'
-    'copy'
-    'template'
-  ]
+  grunt.registerTask 'build', 'compile assets for development', (target = 'dist') ->
+    grunt.task.run [
+      'clean'
+      'sass'
+      'handlebars'
+      "browserify:#{target}"
+      'copy'
+      'template'
+    ]
 
   # build, dev server, watch
   grunt.registerTask 'dev', [
-    'build'
+    'build:dev'
     'connect:livereload'
     'watch'
   ]
@@ -168,7 +177,7 @@ module.exports = (grunt) ->
 
   # build, minify, copy production assets
   grunt.registerTask 'dist', [
-    'build',
+    'build:dist',
     'minify',
     'copy',
     'connect:dist:keepalive'
