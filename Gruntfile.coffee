@@ -11,7 +11,7 @@ npm install --save-dev grunt-browserify grunt-contrib-clean grunt-contrib-concat
 # 'test/spec/{,*/}*.js'
 # use this if you want to recursively match all subfolders:
 # 'test/spec/**/*.js'
-module.exports = (grunt) ->
+module.exports = (grunt, options) ->
   pkg = grunt.file.readJSON('package.json')
 
   # load all grunt tasks and time execution
@@ -19,7 +19,7 @@ module.exports = (grunt) ->
   require('time-grunt') grunt
 
   ###### PLUGIN CONFIGURATIONS ######
-  grunt.initConfig
+  grunt.initConfig _.defaults options,
     pkg: pkg
 
     # grunt-contrib-watch
@@ -112,8 +112,8 @@ module.exports = (grunt) ->
     # grunt-usemin
     usemin:
       options:
-        dirs: ['dist']
-      html: ['dist/{,*/}*.html']
+        dirs: ['app', '.tmp']
+      html: ['app/{,*/}*.html']
 
     # grunt-contrib-connect
     connect:

@@ -1,6 +1,6 @@
 {
-  "name": "gruntfile",
-  "version": "0.1.0",
+  "name": "backstrap-gruntfile",
+  "version": "0.1.1",
   "description": "a great starter Gruntfile with a complete development workflow",
   "main": "Gruntfile.coffee",
   "devDependencies": {
@@ -45,5 +45,8 @@
   "bugs": {
     "url": "https://github.com/giladgray/gruntfile/issues"
   },
-  "homepage": "https://github.com/giladgray/gruntfile"
+  "homepage": "https://github.com/giladgray/gruntfile",
+  "dependencies": {
+    "lodash": "^2.4.1"
+  }
 }
