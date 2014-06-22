@@ -2,6 +2,17 @@
 
 _ = require 'lodash'
 
+DEFAULT_OPTIONS =
+  paths: # UNIMPLEMENTED
+    app  : 'app'
+    temp : '.tmp'
+    dist : 'dist'
+  scripts   : ['scripts/**/*.coffee']
+  styles    : ['styles/**/*.{scss,sass}']
+  templates : ['templates/**/*.hbs']
+  assets    : ['index.html', 'scripts/styles/fonts/**']
+  overrides: {} # UNIMPLEMENTED / UNTESTED
+
 ###
 Installation commands:
 npm install --save-dev grunt browserify coffeeify load-grunt-tasks time-grunt
@@ -16,27 +27,37 @@ npm install --save-dev grunt-browserify grunt-contrib-clean grunt-contrib-concat
 module.exports = (grunt, options) ->
   pkg = grunt.file.readJSON('package.json')
 
+  options = _.defaults options, DEFAULT_OPTIONS
+
+  # welcome message and log options
+  grunt.log.subhead 'Backstrap!'
+  for key, value of DEFAULT_OPTIONS
+    grunt.log.writeln "  #{key}#{"          ".slice(key.length)}:", options[key]
+
   # load all grunt tasks and time execution
   require('load-grunt-tasks') grunt
   require('time-grunt') grunt
 
+  # prefix each entry in given type option with dir path
+  mkpath = (dir, type) ->
+    "#{options.paths[dir]}/#{src}" for src in options[type]
+
   ###### PLUGIN CONFIGURATIONS ######
-  grunt.initConfig _.defaults options,
+  grunt.initConfig
+    options: options
+
     pkg: pkg
 
     # grunt-contrib-watch
     watch:
-      template:
-        files: ['app/_*']
-        tasks: ['template']
       browserify:
-        files: 'app/scripts/{,*/}*.coffee'
+        files: mkpath 'app', 'scripts'
         tasks: ['browserify']
       handlebars:
-        files: ['app/templates/{,*/}*.hbs']
+        files: mkpath 'app', 'templates'
         tasks: ['handlebars']
       sass:
-        files: ['app/styles/{,*/}*.{scss,sass}']
+        files: mkpath 'app', 'styles'
         tasks: ['sass'] #, 'autoprefixer']
       livereload:
         options:
@@ -65,38 +86,24 @@ module.exports = (grunt, options) ->
       dist:
         options:
           style: 'compact'
-        files: [
-          expand: true
-          cwd: 'app/styles'
-          src: '*.{scss,sass}'
-          dest: 'dist/styles'
-          ext: '.css'
-        ]
+        files:
+          'dist/styles/index.css': mkpath 'app', 'styles'
 
     # grunt-contrib-handlebars
     handlebars:
       dist:
         files:
-          'dist/scripts/templates.js': ['app/templates/{,*/}*.hbs']
+          'dist/scripts/templates.js': mkpath 'app', 'templates'
         options:
           namespace: 'Templates'
           processName: (filename) ->
             filename.match(/templates\/(.+)\.h[bj]s$/)[1]
 
-    # grunt-template
-    template:
-      dist:
-        options:
-          data: pkg
-        files:
-          'dist/index.html'   : ['app/_index.html']
-          'dist/manifest.json': ['app/_manifest.json']
-
     # grunt-contrib-copy
     copy:
       dist:
         files: [
-          {expand: true, cwd: 'app', src: ['styles/fonts/**'], dest: 'dist'},
+          {expand: true, cwd: 'app', src: options.assets, dest: 'dist'},
         ]
 
     # grunt-contrib-imagemin
@@ -109,13 +116,13 @@ module.exports = (grunt, options) ->
 
     # grunt-usemin
     useminPrepare:
-      html: 'app/_index.html'
+      html: 'app/index.html'
 
     # grunt-usemin
     usemin:
       options:
-        dirs: ['app', '.tmp']
-      html: ['app/{,*/}*.html']
+        dirs: ['dist']
+      html: ['dist/{,*/}*.html']
 
     # grunt-contrib-connect
     connect:
@@ -157,7 +164,6 @@ module.exports = (grunt, options) ->
       'handlebars'
       "browserify:#{target}"
       'copy'
-      'template'
     ]
 
   # build, dev server, watch
@@ -180,8 +186,8 @@ module.exports = (grunt, options) ->
   # build, minify, copy production assets
   grunt.registerTask 'dist', [
     'build:dist',
-    'minify',
     'copy',
+    'minify',
     'connect:dist:keepalive'
   ]
 

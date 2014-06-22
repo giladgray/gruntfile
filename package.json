@@ -1,6 +1,6 @@
 {
   "name": "backstrap-gruntfile",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "a great starter Gruntfile with a complete development workflow",
   "main": "Gruntfile.coffee",
   "devDependencies": {
