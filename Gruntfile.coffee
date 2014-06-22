@@ -1,5 +1,7 @@
 "use strict"
 
+_ = require 'lodash'
+
 ###
 Installation commands:
 npm install --save-dev grunt browserify coffeeify load-grunt-tasks time-grunt
